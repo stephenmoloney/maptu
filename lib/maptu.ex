@@ -260,7 +260,7 @@ defmodule Maptu do
   """
   @spec struct(module, %{}) :: {:ok, %{}} | {:error, non_strict_error_reason}
   def struct(mod, fields) when is_atom(mod) and is_map(fields) do
-    with :ok <- ensure_struct(mod),
+    with :ok <- ensure_module_struct(mod),
       do: fill_struct(mod, fields)
   end
 
@@ -288,7 +288,7 @@ defmodule Maptu do
   """
   @spec struct_rest(module, %{}) :: {:ok, %{}, %{}} | {:error, non_strict_error_reason}
   def struct_rest(mod, fields) when is_atom(mod) and is_map(fields) do
-    with :ok <- ensure_struct(mod),
+    with :ok <- ensure_module_struct(mod),
       do: fill_struct_rest(mod, fields)
   end
 
@@ -311,7 +311,7 @@ defmodule Maptu do
   """
   @spec strict_struct(module, %{}) :: {:ok, %{}} | {:error, strict_error_reason}
   def strict_struct(mod, fields) when is_atom(mod) and is_map(fields) do
-    with :ok <- ensure_struct(mod),
+    with :ok <- ensure_module_struct(mod),
       do: strict_fill_struct(mod, fields)
   end
 
@@ -408,13 +408,20 @@ defmodule Maptu do
     Atom.to_string(mod) |> ensure_exists()
   end
 
-
   defp ensure_struct(mod) when is_atom(mod) do
     if function_exported?(mod, :__struct__, 0) do
       :ok
     else
-      module_exists = ensure_exists(mod)
-      if module_exists == :ok, do: {:error, {:non_struct, mod}}, else: module_exists
+      {:error, {:non_struct, mod}}
+    end
+  end
+
+  def ensure_module_struct(mod) do
+    case ensure_struct(mod) do
+      :ok -> :ok
+      {:error, {:non_struct, mod}} ->
+        module_exists = ensure_exists(mod)
+        if module_exists == :ok, do: {:error, {:non_struct, mod}}, else: module_exists
     end
   end
 
