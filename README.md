@@ -1,6 +1,7 @@
 # Maptu
 
 [![Build Status](https://travis-ci.org/whatyouhide/maptu.svg?branch=master)](https://travis-ci.org/whatyouhide/maptu)
+[![Hex.pm](https://img.shields.io/hexpm/v/maptu.svg)](https://hex.pm/packages/maptu)
 
 Maptu is a small Elixir library that provides functions to convert from
 "encoded" maps to Elixir structs.
@@ -34,7 +35,7 @@ Add `:maptu` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:maptu, ">= 0.0.0"}]
+  [{:maptu, "~> 1.0"}]
 end
 ```
 

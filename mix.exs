@@ -1,13 +1,11 @@
 defmodule Maptu.Mixfile do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "1.0.0"
 
   @repo_url "https://github.com/whatyouhide/maptu"
 
-  @description """
-  Tiny library to convert from "encoded" maps to Elixir structs.
-  """
+  @description ~s(Tiny library to convert from "encoded" maps to Elixir structs.)
 
   def project do
     [app: :maptu,
@@ -15,7 +13,7 @@ defmodule Maptu.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps,
+     deps: deps(),
 
      # Hex
      package: [maintainers: ["Andrea Leopardi", "Aleksei Magusev"],
@@ -35,8 +33,7 @@ defmodule Maptu.Mixfile do
   end
 
   defp deps do
-    [{:dialyze, ">= 0.0.0", only: :dev},
-     {:earmark, ">= 0.0.0", only: :docs},
+    [{:earmark, ">= 0.0.0", only: :docs},
      {:ex_doc, ">= 0.0.0", only: :docs}]
   end
 end
